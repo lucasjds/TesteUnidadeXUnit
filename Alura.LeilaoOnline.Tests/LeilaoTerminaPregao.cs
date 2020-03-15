@@ -6,12 +6,12 @@ using Xunit;
 
 namespace Alura.LeilaoOnline.Tests
 {
-    public class LeilaoTestes
+    public class LeilaoTerminaPregao
     {
         
 
         [Fact]
-        public void LeilaoSemLances()
+        public void RetornaZeroDadoLeilaoSemLance()
         {
             var leilao = new Leilao("Van Gough");
             
@@ -28,7 +28,7 @@ namespace Alura.LeilaoOnline.Tests
         [InlineData(1200,new double[] { 800, 900, 1000, 1200 })]
         [InlineData(1000,new double[] { 800, 900, 1000, 990 })]
         [InlineData(800, new double[] { 800 })]
-        public void LeilaoComVariosLances(double valorEsperado, double[] ofertas)
+        public void RetornaMaiorValorDadoLeilaoComPeloMenosUmLance(double valorEsperado, double[] ofertas)
         {
             var leilao = new Leilao("Van Gough");
             var fulano = new Interessada("Fulano", leilao);
@@ -46,6 +46,7 @@ namespace Alura.LeilaoOnline.Tests
             Assert.Equal(valorEsperado, valorObtido);
 
         }
+        
 
         
     }
