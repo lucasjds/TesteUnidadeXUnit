@@ -33,6 +33,20 @@ namespace Alura.LeilaoOnline.Tests
         }
 
         [Fact]
+        public void LeilaoSemLances()
+        {
+            var leilao = new Leilao("Van Gough");
+            
+           
+            leilao.TerminaPregao();
+
+            var valorEsperado = 0;
+            var valorObtido = leilao.Ganhador.Valor;
+
+            Assert.Equal(valorEsperado, valorObtido);
+        }
+
+        [Fact]
         public void LeilaoComLancesOrdenadosPorValor()
         {
             var leilao = new Leilao("Van Gough");
