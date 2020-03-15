@@ -8,13 +8,53 @@ namespace Alura.LeilaoOnline.Tests
 {
     public class LeilaoTerminaPregao
     {
-        
+        [Theory]
+        [InlineData(1200, 1250, new double[] { 800, 1150, 1400, 1250 })]
+        public void RetornaValorMaisPRoximoDadoLeilaoNessaModalidade(double valorDestino, double valorEsperado , double[] ofertas )
+        {
+            var leilao = new Leilao("Van Gough");
+            var fulano = new Interessada("Fulano", leilao);
+            var maria = new Interessada("Maria", leilao);
+
+            leilao.IniciaPregao();
+            for (int i = 0; i < ofertas.Length; i++)
+            {
+                var valor = ofertas[i];
+                if ((i % 2) == 0)
+                {
+                    leilao.RecebeLance(fulano, valor);
+                }
+                else
+                {
+                    leilao.RecebeLance(maria, valor);
+                }
+            }
+
+            leilao.TerminaPregao();
+
+            var valorObtido = leilao.Ganhador.Valor;
+
+            Assert.Equal(valorEsperado, valorObtido);
+
+        }
+        [Fact]
+        public void LancaInvalidOperationExceptionDadoPregaoNaoIniciado()
+        {
+            var leilao = new Leilao("Van Gough");
+
+            var excecaoObtida = Assert.Throws<InvalidOperationException>(
+                () => leilao.TerminaPregao()
+            );
+            var msgEsperada = "Nao eh possivel terminar o pregao";
+            Assert.Equal(msgEsperada, excecaoObtida.Message);
+           
+        }
 
         [Fact]
         public void RetornaZeroDadoLeilaoSemLance()
         {
             var leilao = new Leilao("Van Gough");
-            
+            leilao.IniciaPregao();
            
             leilao.TerminaPregao();
 
