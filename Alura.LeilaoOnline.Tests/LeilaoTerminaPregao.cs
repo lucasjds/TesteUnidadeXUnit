@@ -12,7 +12,8 @@ namespace Alura.LeilaoOnline.Tests
         [InlineData(1200, 1250, new double[] { 800, 1150, 1400, 1250 })]
         public void RetornaValorMaisPRoximoDadoLeilaoNessaModalidade(double valorDestino, double valorEsperado , double[] ofertas )
         {
-            var leilao = new Leilao("Van Gough");
+            IModalidadeAvaliacao modalidade = new OfertaSuperiorMaisProxima(valorDestino);
+            var leilao = new Leilao("Van Gough", modalidade);
             var fulano = new Interessada("Fulano", leilao);
             var maria = new Interessada("Maria", leilao);
 
@@ -40,7 +41,8 @@ namespace Alura.LeilaoOnline.Tests
         [Fact]
         public void LancaInvalidOperationExceptionDadoPregaoNaoIniciado()
         {
-            var leilao = new Leilao("Van Gough");
+            var modalidade = new MaiorValor();
+            var leilao = new Leilao("Van Gough",modalidade);
 
             var excecaoObtida = Assert.Throws<InvalidOperationException>(
                 () => leilao.TerminaPregao()
@@ -53,7 +55,8 @@ namespace Alura.LeilaoOnline.Tests
         [Fact]
         public void RetornaZeroDadoLeilaoSemLance()
         {
-            var leilao = new Leilao("Van Gough");
+            var modalidade = new MaiorValor();
+            var leilao = new Leilao("Van Gough",modalidade);
             leilao.IniciaPregao();
            
             leilao.TerminaPregao();
@@ -70,7 +73,8 @@ namespace Alura.LeilaoOnline.Tests
         [InlineData(800, new double[] { 800 })]
         public void RetornaMaiorValorDadoLeilaoComPeloMenosUmLance(double valorEsperado, double[] ofertas)
         {
-            var leilao = new Leilao("Van Gough");
+            var modalidade = new MaiorValor();
+            var leilao = new Leilao("Van Gough", modalidade);
             var fulano = new Interessada("Fulano", leilao);
             var maria = new Interessada("Maria", leilao);
 
